@@ -4,6 +4,7 @@ import br.com.fiap.calorias.model.Usuario;
 import br.com.fiap.calorias.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,8 +29,12 @@ public class UsuarioController {
     }
 
     @GetMapping("/usuarios/{usuarioId}")
-    public Usuario buscarPorId(@PathVariable Long usuarioId){
-        return usuarioService.listarPorId(usuarioId);
+    public ResponseEntity<Usuario> buscarPorId(@PathVariable Long usuarioId){
+        try {
+            return ResponseEntity.ok(usuarioService.listarPorId(usuarioId));
+        } catch (Exception e){
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }
