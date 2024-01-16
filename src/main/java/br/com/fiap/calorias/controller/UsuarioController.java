@@ -37,4 +37,17 @@ public class UsuarioController {
         }
     }
 
+
+    @DeleteMapping("/usuarios/{usuarioId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void excluir(@PathVariable Long usuarioId){
+        usuarioService.excluir(usuarioId);
+    }
+
+    @PutMapping("/usuarios")
+    @ResponseStatus(HttpStatus.OK)
+    public Usuario atualizar(@RequestBody Usuario usuario){
+        return usuarioService.atualizar(usuario);
+    }
+
 }

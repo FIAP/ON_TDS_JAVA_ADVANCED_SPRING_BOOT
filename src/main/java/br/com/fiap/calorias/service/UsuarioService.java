@@ -49,7 +49,7 @@ public class UsuarioService {
                 usuarioRepository.findById(usuario.getUsuarioId());
 
         if (usuarioOptional.isPresent()){
-            return usuarioRepository.save(usuarioOptional.get());
+            return usuarioRepository.save(usuario);
         } else {
             throw new RuntimeException("Usuário não encontrado!");
         }
