@@ -1,7 +1,10 @@
 package br.com.fiap.calorias.service;
 
+import br.com.fiap.calorias.dto.UsuarioCadastroDTO;
+import br.com.fiap.calorias.dto.UsuarioExibicaoDTO;
 import br.com.fiap.calorias.model.Usuario;
 import br.com.fiap.calorias.repository.UsuarioRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,23 +17,33 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public Usuario salvarUsuario(Usuario usuario){
-        return usuarioRepository.save(usuario);
+    public UsuarioExibicaoDTO salvarUsuario(UsuarioCadastroDTO usuarioDTO){
+
+        Usuario usuario = new Usuario();
+        BeanUtils.copyProperties(usuarioDTO, usuario);
+
+        Usuario usuarioSalvo = usuarioRepository.save(usuario);
+        return new UsuarioExibicaoDTO(usuarioSalvo);
+
     }
 
-    public Usuario listarPorId(Long id){
+    public UsuarioExibicaoDTO listarPorId(Long id){
         Optional<Usuario> usuarioOptional =
                 usuarioRepository.findById(id);
 
         if (usuarioOptional.isPresent()){
-            return usuarioOptional.get();
+            return new UsuarioExibicaoDTO(usuarioOptional.get());
         } else {
             throw new RuntimeException("Usuário não existe!");
         }
     }
 
-    public List<Usuario> listarTodos(){
-        return usuarioRepository.findAll();
+    public List<UsuarioExibicaoDTO> listarTodos(){
+        return usuarioRepository
+                .findAll()
+                .stream()
+                .map(UsuarioExibicaoDTO::new)
+                .toList();
     }
 
     public void excluir(Long id){
