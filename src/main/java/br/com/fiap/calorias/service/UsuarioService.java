@@ -27,7 +27,7 @@ public class UsuarioService {
 
     }
 
-    public UsuarioExibicaoDTO listarPorId(Long id){
+    public UsuarioExibicaoDTO buscarPorId(Long id){
         Optional<Usuario> usuarioOptional =
                 usuarioRepository.findById(id);
 
