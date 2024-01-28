@@ -6,10 +6,12 @@ import br.com.fiap.calorias.model.Alimento;
 import br.com.fiap.calorias.repository.AlimentoRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class AlimentoService {
 
     @Autowired
@@ -20,12 +22,26 @@ public class AlimentoService {
         Alimento alimento = new Alimento();
         BeanUtils.copyProperties(alimentoDTO, alimento);
 
+        alimento.setTotalCalorias(
+                calcularCalorias(
+                    alimento.getQuantidadeProteina(),
+                    alimento.getQuantidadeCarboidrato(),
+                    alimento.getQuantidadeGorduras()
+                )
+        );
+
+        System.out.println(alimento.getNome());
+        System.out.println(alimento.getPorcao());
+        System.out.println(alimento.getQuantidadeCarboidrato());
+        System.out.println(alimento.getQuantidadeProteina());
+        System.out.println(alimento.getQuantidadeGorduras());
+        System.out.println(alimento.getTotalCalorias());
         Alimento alimentoSalvo = alimentoRepository.save(alimento);
         return new AlimentoExibicaoDTO(alimentoSalvo);
 
     }
 
-    public AlimentoExibicaoDTO listarPorId(Long id){
+    public AlimentoExibicaoDTO buscarPorId(Long id){
         Optional<Alimento> alimentoOptional =
                 alimentoRepository.findById(id);
 
@@ -55,15 +71,32 @@ public class AlimentoService {
         }
     }
 
-    public Alimento atualizar(Alimento alimento){
+    public AlimentoExibicaoDTO atualizar(AlimentoCadastroDTO alimentoDTO){
         Optional<Alimento> alimentoOptional =
-                alimentoRepository.findById(alimento.getAlimentoId());
+                alimentoRepository.findById(alimentoDTO.alimentoId());
 
         if (alimentoOptional.isPresent()){
-            return alimentoRepository.save(alimento);
+            Alimento alimento = new Alimento();
+            BeanUtils.copyProperties(alimentoDTO, alimento);
+
+            alimento.setTotalCalorias(
+                    calcularCalorias(
+                            alimento.getQuantidadeProteina(),
+                            alimento.getQuantidadeCarboidrato(),
+                            alimento.getQuantidadeGorduras()
+                    )
+            );
+
+            return new AlimentoExibicaoDTO(alimentoRepository.save(alimento));
         } else {
             throw new RuntimeException("Alimento não encontrado!");
         }
+    }
+
+    public Double calcularCalorias(Double proteinas, Double carboidratos, Double gorduras){
+        Double calorias = (proteinas * 4) + (carboidratos * 4) + (gorduras * 9);
+        System.out.println(calorias);
+        return calorias;
     }
 
 }
