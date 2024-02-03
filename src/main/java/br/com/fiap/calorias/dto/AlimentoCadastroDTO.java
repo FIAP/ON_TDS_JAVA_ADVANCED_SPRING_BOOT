@@ -6,7 +6,7 @@ public record AlimentoCadastroDTO(
         String porcao,
         Double quantidadeProteina,
         Double quantidadeCarboidrato,
-        Double quantidadeGorduras,
-        Double totalCalorias
+        Double quantidadeGorduras
 ) {
+
 }
