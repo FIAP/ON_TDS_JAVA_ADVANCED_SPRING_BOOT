@@ -2,6 +2,7 @@ package br.com.fiap.calorias.controller;
 
 import br.com.fiap.calorias.dto.UsuarioCadastroDTO;
 import br.com.fiap.calorias.dto.UsuarioExibicaoDTO;
+import br.com.fiap.calorias.exception.UsuarioNaoEncontradoException;
 import br.com.fiap.calorias.model.Usuario;
 import br.com.fiap.calorias.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -33,11 +34,7 @@ public class UsuarioController {
 
     @GetMapping("/usuarios/{usuarioId}")
     public ResponseEntity<UsuarioExibicaoDTO> buscarPorId(@PathVariable Long usuarioId){
-        try {
-            return ResponseEntity.ok(usuarioService.buscarPorId(usuarioId));
-        } catch (Exception e){
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(usuarioService.buscarPorId(usuarioId));
     }
 
     @DeleteMapping("/usuarios/{usuarioId}")
@@ -51,5 +48,6 @@ public class UsuarioController {
     public Usuario atualizar(@RequestBody Usuario usuario){
         return usuarioService.atualizar(usuario);
     }
+
 
 }
