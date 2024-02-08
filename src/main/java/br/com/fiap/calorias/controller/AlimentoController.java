@@ -30,12 +30,32 @@ public class AlimentoController {
         return alimentoService.listarTodos();
     }
 
+    @GetMapping("/alimentos/faixa")
+    @ResponseStatus(HttpStatus.OK)
+    public List<AlimentoExibicaoDTO> litarAlimentosPorFaixaDeCalorias(
+            @RequestParam("minimo") Double minimo,
+            @RequestParam("maximo") Double maximo
+    ){
+        return alimentoService.listarAlimentosPorFaixaDeCalorias(minimo, maximo);
+    }
+
     @GetMapping("/alimentos/{alimentoId}")
     public ResponseEntity<AlimentoExibicaoDTO> buscarPorId(
             @PathVariable Long alimentoId){
         try {
             return ResponseEntity
                     .ok(alimentoService.buscarPorId(alimentoId));
+        } catch (Exception e){
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/alimentos/")
+    public ResponseEntity<AlimentoExibicaoDTO> buscarPorNome(
+            @RequestParam("nome") String nome){
+        try {
+            return ResponseEntity
+                    .ok(alimentoService.buscarPorNome(nome));
         } catch (Exception e){
             return ResponseEntity.notFound().build();
         }
