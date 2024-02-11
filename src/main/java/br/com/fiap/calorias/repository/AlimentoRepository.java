@@ -1,5 +1,6 @@
 package br.com.fiap.calorias.repository;
 
+import br.com.fiap.calorias.dto.AlimentoExibicaoDTO;
 import br.com.fiap.calorias.model.Alimento;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,5 +19,7 @@ public interface AlimentoRepository extends JpaRepository<Alimento, Long> {
             @Param("minimo") Double minino,
             @Param("maximo") Double maximo
     );
+
+    List<AlimentoExibicaoDTO> findByTotalCaloriasLessThan(Double caloria);
 
 }

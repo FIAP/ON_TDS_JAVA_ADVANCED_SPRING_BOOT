@@ -66,17 +66,12 @@ public class AlimentoService {
                 .toList();
     }
 
-    public List<AlimentoExibicaoDTO> listarAlimentosPorFaixaDeCalorias(Double minimo, Double maximo){
+    public List<AlimentoExibicaoDTO> listarAlimentosPorFaixaDeCalorias(Double caloriaMinima, Double caloriaMaxima){
         return alimentoRepository
-                .listarAlimentosPorFaixaDeCalorias(minimo, maximo)
+                .listarAlimentosPorFaixaDeCalorias(caloriaMinima, caloriaMaxima)
                 .stream()
                 .map(AlimentoExibicaoDTO::new)
                 .toList();
-//        return alimentoRepository
-//                .findAll()
-//                .stream()
-//                .map(AlimentoExibicaoDTO::new)
-//                .toList();
     }
 
     public void excluir(Long id){
@@ -116,6 +111,10 @@ public class AlimentoService {
         Double calorias = (proteinas * 4) + (carboidratos * 4) + (gorduras * 9);
         System.out.println(calorias);
         return calorias;
+    }
+
+    public List<AlimentoExibicaoDTO> listarTotalCaloriasMenorQue(Double totalCalorias){
+        return alimentoRepository.findByTotalCaloriasLessThan(totalCalorias);
     }
 
 }

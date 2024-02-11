@@ -39,6 +39,17 @@ public class UsuarioService {
         }
     }
 
+    public UsuarioExibicaoDTO buscarPorEmail(String email){
+        Optional<Usuario> usuarioOptional =
+                usuarioRepository.findByEmail(email);
+
+        if (usuarioOptional.isPresent()){
+            return new UsuarioExibicaoDTO(usuarioOptional.get());
+        } else {
+            throw new UsuarioNaoEncontradoException("Usuário não existe no banco de dados!");
+        }
+    }
+
 
     public List<UsuarioExibicaoDTO> listarTodos(){
         return usuarioRepository

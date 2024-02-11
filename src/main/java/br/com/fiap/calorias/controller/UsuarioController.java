@@ -37,6 +37,12 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.buscarPorId(usuarioId));
     }
 
+    @RequestMapping(value = "/usuarios", params = "email")
+    @ResponseStatus(HttpStatus.OK)
+    public UsuarioExibicaoDTO buscarPorEmail(@RequestParam String email){
+        return usuarioService.buscarPorEmail(email);
+    }
+
     @DeleteMapping("/usuarios/{usuarioId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@PathVariable Long usuarioId){
