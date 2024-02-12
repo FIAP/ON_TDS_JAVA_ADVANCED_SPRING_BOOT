@@ -6,6 +6,7 @@ import br.com.fiap.calorias.service.AlimentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,9 @@ public class AlimentoController {
 
     @GetMapping("/alimentos")
     @ResponseStatus(HttpStatus.OK)
-    public Page<AlimentoExibicaoDTO> litarTodos(Pageable paginacao){
+    public Page<AlimentoExibicaoDTO> litarTodos(
+            @PageableDefault(size = 20, page = 0) Pageable paginacao
+    ){
         return alimentoService.listarTodos(paginacao);
     }
 
