@@ -42,6 +42,8 @@ public class AuthController {
 
         Authentication auth = authenticationManager.authenticate(usernamePassword);
 
+        System.out.println(auth.getPrincipal());
+
         String token = tokenService.gerarToken((Usuario) auth.getPrincipal());
 
         return ResponseEntity.ok(new TokenDTO(token));

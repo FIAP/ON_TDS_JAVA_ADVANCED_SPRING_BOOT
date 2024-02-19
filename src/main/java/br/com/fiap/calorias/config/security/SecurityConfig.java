@@ -32,10 +32,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/alimentos").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/alimentos").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/alimentos").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/alimentos").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.POST, "/api/alimentos").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/alimentos/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/alimentos").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/alimentos").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(
